@@ -1,47 +1,54 @@
-import './App.css';
-import { useState } from 'react';
+import './App.css'
+import React, { useState } from 'react'
 import Title from './components/Title'
+import Modal from './components/Modal'
+import EventList from './components/EventList'
 
 function App() {
+  const [showModal, setShowModal] = useState(true);
   const [showEvents, setShowEvents] = useState(true)
   const [events, setEvents] = useState([
-    {title: "mario's birthday", id: 1},
-    {title: "luigis's birthday", id: 2},
-    {title: "bowser's birthday", id: 3}
+    {title: "mario's birthday bash", id: 1},
+    {title: "bowser's live stream", id: 2},
+    {title: "race on moo moo farm", id: 3}
   ])
+  console.log(showModal)
 
   const handleClick = (id) => {
-    setEvents((prevEvents) => {
-      return prevEvents.filter((event) => {
-        return id !== event.id
-      })
+    setEvents(prevEvents => {
+      return prevEvents.filter(event => id !== event.id)
     })
-    //Deletes event, but we are using the current events, so we must prevState
-    //If your state update doesnt rely on the previous state, theres no need for this
-    console.log(id);
+  }
+  const subtitle = "All the latest events in Marioland"
+  const handleClose = () => {
+    setShowModal(false);
+  }
+  const handleOpen = () => {
+    setShowModal(true);
   }
 
-  const subtitle = "All the latest events in Mario"
   return (
     <div className="App">
-      <Title title="Events in Your Area" subtitle={subtitle}/>
-      <Title title="Another Title" subtitle="Another subtitle"/>
+            <button onClick={handleOpen}>Open Modal</button>        <br/>
+
+      <Title title="Marioland Events" subtitle={subtitle} />
+
       {showEvents && (
         <div>
-        <button onClick={() => {setShowEvents(false)}}>Hide Events</button>
-      </div>
+          <button onClick={() => setShowEvents(false)}>Hide Events</button>
+        </div>
       )}
       {!showEvents && (
         <div>
-        <button onClick={() => {setShowEvents(true)}}>Show Events</button>
-      </div>
-      )}
-      {showEvents && events.map((event, index) => (
-        <div key={event.id}>
-          <h2>{index} - {event.title}</h2>
-          <button onClick={() => handleClick(event.id)}>Delete Event</button>
+          <button onClick={() => setShowEvents(true)}>Show Events</button>
         </div>
-      ))}
+      )}
+      {showEvents && <EventList events={events} handleClick={handleClick} />}
+        {showModal && <Modal handleClose={handleClose}>
+          <h2>Modal</h2>
+          <p>Reusable Component</p>
+        </Modal>}
+
     </div>
   );
 }
