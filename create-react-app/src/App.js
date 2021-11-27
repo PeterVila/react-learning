@@ -43,8 +43,8 @@ function App() {
           <button onClick={() => setShowEvents(true)}>Show Events</button>
         </div>
       )}
-      {showEvents && <EventList events={events} handleClick={handleClick} />}
-        {showModal && <Modal handleClose={handleClose}>
+      {showEvents && <EventList events={events} handleClick={handleClick}/>}
+        {showModal && <Modal handleClose={handleClose} isSalesModal={true}>
           <h2>Modal</h2>
           <p>Reusable Component</p>
         </Modal>}
